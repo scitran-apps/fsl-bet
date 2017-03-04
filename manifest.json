@@ -9,6 +9,9 @@
     "license": "Apache-2.0",
     "flywheel": "0",
     "version": "0.1.0",
+    "custom": {
+        "docker-image": "scitran/fsl-bet:v0.1.0"
+    },
     "config": {
       "fractional_intensity_threshold": {
         "description": "Fractional intensity threshold (0->1); default=0.5; smaller values give larger brain outline estimates. Changing Fractional intensity threshold from its default value of 0.5 will cause the overall segmented brain to become larger (<0.5) or smaller (>0.5). This threshold must lie between 0 and 1.",
