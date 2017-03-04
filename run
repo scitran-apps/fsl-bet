@@ -36,7 +36,7 @@ vertical_gradient_intensity_threshold_flag=$(jq -r <$MANIFEST '''.config.vertica
 
 # Parse config options from CONFIG file or MANIFEST
 if [[ -f $CONFIG_FILE ]]; then
-  echo "$CONFIG_FILE found. Loading defaults from config.json"
+  echo "$CONFIG_FILE found. Loading config..."
 
   if [[ $(jq -r <$CONFIG_FILE '''.config.skull_image') == 'true' ]]; then
     skull_image=$skull_image_flag
@@ -62,7 +62,7 @@ if [[ -f $CONFIG_FILE ]]; then
   vertical_gradient_intensity_threshold="$vertical_gradient_intensity_threshold_flag $(jq -r <$CONFIG_FILE '''.config.vertical_gradient_intensity_threshold')"
 
 else
-  echo "$CONFIG_FILE not found. Loading defaults from Manifest.json"
+  echo "$CONFIG_FILE not found. Loading defaults from $MANIFEST..."
 
   if [[ $(jq -r <$MANIFEST '''.config.skull_image.default') == 'true' ]]; then
     skull_image=$skull_image_flag
