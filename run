@@ -58,8 +58,11 @@ if [[ -f $CONFIG_FILE ]]; then
     apply_mask_thresholding=$apply_mask_thresholding_flag
   fi
 
+
+
   fractional_intensity_threshold="$fractional_intensity_threshold_flag $(jq -r <$CONFIG_FILE '''.config.fractional_intensity_threshold')"
   vertical_gradient_intensity_threshold="$vertical_gradient_intensity_threshold_flag $(jq -r <$CONFIG_FILE '''.config.vertical_gradient_intensity_threshold')"
+  function_option=$(jq -r <$CONFIG_FILE '''.config.function_option')
 
 else
   echo "$CONFIG_FILE not found. Loading defaults from $MANIFEST..."
@@ -86,18 +89,20 @@ else
 
   fractional_intensity_threshold="$fractional_intensity_threshold_flag $(jq -r <$MANIFEST '''.config.fractional_intensity_threshold.default')"
   vertical_gradient_intensity_threshold="$vertical_gradient_intensity_threshold_flag $(jq -r <$MANIFEST '''.config.vertical_gradient_intensity_threshold.default')"
+  function_option=$(jq -r <$MANIFEST '''.config.function_option.default')
 
 fi
 
 # Compile options string
-OPTIONS="$fractional_intensity_threshold $brain_surf_outline $binary_brain_mask $skull_image $vertical_gradient_intensity_threshold $apply_mask_thresholding $vtk_surface_mesh"
+OPTIONS="$fractional_intensity_threshold $brain_surf_outline $binary_brain_mask $skull_image $vertical_gradient_intensity_threshold $apply_mask_thresholding $vtk_surface_mesh $function_option"
+echo -e "bet options are: ${OPTIONS}"
 
 # Execute the algorithm
 input_file=`find $INPUT_DIR/* -maxdepth 0 -type f -name "*.nii*"`
 if [[ -f $input_file ]]; then
   echo "$CONTAINER  Running bet2 on `basename "$input_file"`"
   output_file_base=$OUTPUT_DIR/`basename "$input_file" .nii.gz`
-  bet2 "$input_file" "$output_file_base"_bet $OPTIONS
+  bet "$input_file" "$output_file_base"_bet -v $OPTIONS
   STATUS=$?
 else
   echo "$CONTAINER  No inputs were provided and $INPUT_DIR has no valid input files!"
