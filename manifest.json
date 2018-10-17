@@ -12,7 +12,7 @@
       "flywheel": {
         "suite": "FSL"
       },
-    "docker-image": "scitran/fsl-bet:0.2.0"
+    "docker-image": "scitran/fsl-bet:0.2.1"
   },
   "config": {
     "fractional_intensity_threshold": {
