@@ -98,10 +98,11 @@ OPTIONS="$fractional_intensity_threshold $brain_surf_outline $binary_brain_mask 
 echo -e "bet options are: ${OPTIONS}"
 
 # Execute the algorithm
-input_file=`find $INPUT_DIR/* -maxdepth 0 -type f -name "*.nii*"`
+input_file=$(find $INPUT_DIR/* -maxdepth 0 -type f -name "*.nii*")
 if [[ -f $input_file ]]; then
   echo "$CONTAINER  Running bet2 on `basename "$input_file"`"
-  output_file_base=$OUTPUT_DIR/`basename "$input_file" .nii.gz`
+  output_file_base=$OUTPUT_DIR/$(basename "$input_file" .nii.gz)
+  output_file_base=$OUTPUT_DIR/$(basename "$output_file_base" .nii)
   bet "$input_file" "$output_file_base"_bet -v $OPTIONS
   STATUS=$?
 else
