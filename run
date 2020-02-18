@@ -100,6 +100,11 @@ echo -e "bet options are: ${OPTIONS}"
 # Execute the algorithm
 input_file=$(find $INPUT_DIR/* -maxdepth 0 -type f -name "*.nii*")
 if [[ -f $input_file ]]; then
+  
+  input_file_despaced=$(echo -e "${input_file}" | tr -d '[:space:]')
+  mv "${input_file}" "${input_file_despaced}"
+  input_file=$input_file_despaced
+  
   echo "$CONTAINER  Running bet2 on `basename "$input_file"`"
   output_file_base=$OUTPUT_DIR/$(basename "$input_file" .nii.gz)
   output_file_base=$OUTPUT_DIR/$(basename "$output_file_base" .nii)
